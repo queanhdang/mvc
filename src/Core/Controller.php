@@ -1,4 +1,5 @@
 <?php
+namespace AHT\Core;
     class Controller
     {
         var $vars = [];
@@ -10,11 +11,11 @@
         }
 
         function render($filename)
-        {
+        {   
+            $nameController = explode('\\',get_class($this))[2];
             extract($this->vars);
-            print_r(extract($this->vars));
             ob_start();
-            require(ROOT . "Views/" . ucfirst(str_replace('Controller', '', get_class($this))) . '/' . $filename . '.php');
+            require(ROOT . "Views/" . ucfirst(str_replace('Controller', '', $nameController)) . '/' . $filename . '.php');
             $content_for_layout = ob_get_clean();
             
             if ($this->layout == false)

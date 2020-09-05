@@ -1,4 +1,9 @@
 <?php
+namespace AHT\Models;
+
+use AHT\Core\Model;
+use AHT\Config\Database;
+
 class Task extends Model
 {
     public function create($title, $description)

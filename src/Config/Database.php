@@ -1,5 +1,6 @@
 <?php
-
+namespace AHT\Config;
+use PDO;
 class Database
 {
     private static $bdd = null;

@@ -1,10 +1,13 @@
 <?php
+namespace AHT\Controllers;
+
+use AHT\Core\Controller;
+use AHT\Models\Task;
+
 class tasksController extends Controller
 {
     function index1()
     {
-        require(ROOT . 'Models/Task.php');
-
         $tasks = new Task();
 
         $d['tasks'] = $tasks->showAllTasks();
@@ -16,8 +19,6 @@ class tasksController extends Controller
     {
         if (isset($_POST["title"]))
         {
-            require(ROOT . 'Models/Task.php');
-
             $task= new Task();
 
             if ($task->create($_POST["title"], $_POST["description"]))
@@ -31,7 +32,6 @@ class tasksController extends Controller
 
     function edit($id)
     {
-        require(ROOT . 'Models/Task.php');
         $task= new Task();
 
         $d["task"] = $task->showTask($id);
@@ -49,8 +49,6 @@ class tasksController extends Controller
 
     function delete($id)
     {
-        require(ROOT . 'Models/Task.php');
-
         $task = new Task();
         if ($task->delete($id))
         {

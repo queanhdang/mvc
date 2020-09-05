@@ -1,5 +1,7 @@
 <?php
+namespace AHT;
 
+use AHT\Controllers\tasksController;
 class Dispatcher
 {
 
@@ -19,9 +21,7 @@ class Dispatcher
     public function loadController()
     {
         $name = $this->request->controller . "Controller";
-        $file = ROOT . 'Controllers/' . $name . '.php';
-        require($file);
-        $controller = new $name();
+        $controller = new tasksController();
         return $controller;
     }
 
