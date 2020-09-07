@@ -18,7 +18,11 @@ class TaskResourceModel extends ResourceModel
         $sql  = "SELECT * FROM " . $this->table;
         $req = Database::getBdd()->prepare($sql);
         $req->execute();
-        return $req->fetchAll();
+        $array_obj=[];
+        while ($obj = $req -> fetchObject()) {
+            array_push($array_obj, $obj);
+        }
+        return $array_obj;
     }
     
     public function show($id)
@@ -26,7 +30,7 @@ class TaskResourceModel extends ResourceModel
         $sql = "SELECT * FROM " . $this->table . " WHERE " . $this->id . " = " . $id;
         $req = Database::getBdd()->prepare($sql);
         $req->execute();
-        return $req->fetch();
+        return $req->fetchObject();
     }
     
     public function delete($id)
