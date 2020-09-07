@@ -19,18 +19,27 @@ class TaskResourceModel extends ResourceModel
         $req = Database::getBdd()->prepare($sql);
         $req->execute();
         $array_obj=[];
-        while ($obj = $req -> fetchObject()) {
-            array_push($array_obj, $obj);
+        $array = $req->fetchAll();
+        for ($i = 0; $i <count($array); $i++) {
+            $task = new $this->model;
+            foreach ($array[$i] as $key => $value) {
+                $task->$key = $value;
+            }
+            array_push($array_obj, $task);
         }
         return $array_obj;
     }
     
     public function show($id)
     {
+        $model = new $this->model;
         $sql = "SELECT * FROM " . $this->table . " WHERE " . $this->id . " = " . $id;
         $req = Database::getBdd()->prepare($sql);
         $req->execute();
-        return $req->fetchObject();
+        foreach ($req->fetch() as $key => $value) {
+            $model->$key = $value;
+        }
+        return $model;
     }
     
     public function delete($id)
@@ -43,15 +52,17 @@ class TaskResourceModel extends ResourceModel
     
     public function edit($id)
     {
-        $sql = "UPDATE " . $this->table . " SET " . $this->model->updateString(). " WHERE " . $this->id . " = :" . $this->id;
+        $t = new $this->model;
+        $sql = "UPDATE " . $this->table . " SET " . $t->updateString(). " WHERE " . $this->id . " = :" . $this->id;
         $req = Database::getBdd()->prepare($sql);
-        return $req->execute($this->model->updateValues($this->id, $id));
+        return $req->execute($t->updateValues($this->id, $id));
     }
 
     public function create()
     {
-        $sql = "INSERT INTO " . $this->table . $this->model->insertString();
+        $t = new $this->model;
+        $sql = "INSERT INTO " . $this->table . $t->insertString();
         $req = Database::getBdd()->prepare($sql);
-        return $req->execute($this->model->insertValues());
+        return $req->execute($t->insertValues());
     }
 }

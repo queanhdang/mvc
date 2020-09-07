@@ -3,8 +3,6 @@ namespace AHT\Models;
 
 use AHT\Core\Model;
 
-// require_once "D:/PHP/mvc/src/Core/Model.php";
-
 class Task extends Model
 {
     private $title;

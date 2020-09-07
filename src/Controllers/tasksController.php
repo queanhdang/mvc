@@ -9,8 +9,8 @@ class tasksController extends Controller
 {
     function index1()
     {
-        $tasks = new Task();
-        $taskResourceModel = new TaskResourceModel("tasks", "id", $tasks);
+        // $task = new Task();
+        $taskResourceModel = new TaskResourceModel("tasks", "id", "AHT\Models\Task");
 
         $d['tasks'] = $taskResourceModel->showAll();
         $this->set($d);
@@ -22,8 +22,7 @@ class tasksController extends Controller
         if (isset($_POST["title"]))
         {
             $task= new Task();
-            $taskResourceModel = new TaskResourceModel("tasks", "id", $task);
-
+            $taskResourceModel = new TaskResourceModel("tasks", "id", "AHT\Models\Task");
             if ($taskResourceModel->create())
             {
                 header("Location: " . WEBROOT . "tasks/index1");
@@ -36,7 +35,7 @@ class tasksController extends Controller
     function edit($id)
     {
         $task= new Task();
-        $taskResourceModel = new TaskResourceModel("tasks", "id", $task);
+        $taskResourceModel = new TaskResourceModel("tasks", "id", "AHT\Models\Task");
         $d["task"] = $taskResourceModel->show($id);
         if (isset($_POST["title"]))
         {
