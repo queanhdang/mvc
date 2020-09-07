@@ -1,6 +1,7 @@
 <?php
 namespace AHT\Controllers;
 
+use AHT\Models\TaskResourceModel;
 use AHT\Core\Controller;
 use AHT\Models\Task;
 
@@ -9,8 +10,9 @@ class tasksController extends Controller
     function index1()
     {
         $tasks = new Task();
+        $taskResourceModel = new TaskResourceModel("tasks", "id", $tasks);
 
-        $d['tasks'] = $tasks->showAllTasks();
+        $d['tasks'] = $taskResourceModel->showAll();
         $this->set($d);
         $this->render("index1");
     }
@@ -20,8 +22,9 @@ class tasksController extends Controller
         if (isset($_POST["title"]))
         {
             $task= new Task();
+            $taskResourceModel = new TaskResourceModel("tasks", "id", $task);
 
-            if ($task->create($_POST["title"], $_POST["description"]))
+            if ($taskResourceModel->create())
             {
                 header("Location: " . WEBROOT . "tasks/index1");
             }
@@ -33,12 +36,11 @@ class tasksController extends Controller
     function edit($id)
     {
         $task= new Task();
-
-        $d["task"] = $task->showTask($id);
-
+        $taskResourceModel = new TaskResourceModel("tasks", "id", $task);
+        $d["task"] = $taskResourceModel->show($id);
         if (isset($_POST["title"]))
         {
-            if ($task->edit($id, $_POST["title"], $_POST["description"]))
+            if ($taskResourceModel->edit($id))
             {
                 header("Location: " . WEBROOT . "tasks/index1");
             }
@@ -50,7 +52,8 @@ class tasksController extends Controller
     function delete($id)
     {
         $task = new Task();
-        if ($task->delete($id))
+        $taskResourceModel = new TaskResourceModel("tasks", "id", $task);
+        if ($taskResourceModel->delete($id))
         {
             header("Location: " . WEBROOT . "tasks/index1");
         }

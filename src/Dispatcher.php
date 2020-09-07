@@ -1,7 +1,7 @@
 <?php
 namespace AHT;
 
-use AHT\Controllers\tasksController;
+// use AHT\Controllers\tasksController as tasksController;
 class Dispatcher
 {
 
@@ -20,8 +20,8 @@ class Dispatcher
 
     public function loadController()
     {
-        $name = $this->request->controller . "Controller";
-        $controller = new tasksController();
+        $name = "AHT\\Controllers\\" . $this->request->controller . "Controller";
+        $controller = new $name();
         return $controller;
     }
 

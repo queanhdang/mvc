@@ -2,61 +2,77 @@
 namespace AHT\Models;
 
 use AHT\Core\Model;
-use AHT\Config\Database;
+
+// require_once "D:/PHP/mvc/src/Core/Model.php";
 
 class Task extends Model
 {
-    public function create($title, $description)
+    private $title;
+    private $description;
+    private $created_at;
+    private $updated_at;
+    private $id;
+
+    public function setTitle($title)
     {
-        $sql = "INSERT INTO tasks (title, description, created_at, updated_at) VALUES (:title, :description, :created_at, :updated_at)";
-
-        $req = Database::getBdd()->prepare($sql);
-
-        return $req->execute([
-            'title' => $title,
-            'description' => $description,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-
-        ]);
+        $this->title = $title;
     }
 
-    public function showTask($id)
+    public function getTitle()
     {
-        $sql = "SELECT * FROM tasks WHERE id =" . $id;
-        $req = Database::getBdd()->prepare($sql);
-        $req->execute();
-        return $req->fetch();
+        return $this->title;
     }
 
-    public function showAllTasks()
+    public function setDescription($description)
     {
-        $sql = "SELECT * FROM tasks";
-        $req = Database::getBdd()->prepare($sql);
-        $req->execute();
-        return $req->fetchAll();
+        $this->description = $description;
     }
 
-    public function edit($id, $title, $description)
+    public function getDescription()
     {
-        $sql = "UPDATE tasks SET title = :title, description = :description , updated_at = :updated_at WHERE id = :id";
-
-        $req = Database::getBdd()->prepare($sql);
-
-        return $req->execute([
-            'id' => $id,
-            'title' => $title,
-            'description' => $description,
-            'updated_at' => date('Y-m-d H:i:s')
-
-        ]);
+        return $this->description;
     }
 
-    public function delete($id)
+    public function setCreated_at($created_at)
     {
-        $sql = 'DELETE FROM tasks WHERE id = ?';
-        $req = Database::getBdd()->prepare($sql);
-        return $req->execute([$id]);
+        $this->created_at = $created_at;
+    }
+
+    public function getCreated_at()
+    {
+        return $this->created_at;
+    }
+
+    public function setUpdated_at($updated_at)
+    {
+        $this->updated_at = $updated_at;
+    }
+
+    public function getUpdated_at()
+    {
+        return $this->updated_at;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->$id;
+    }
+
+    public function __set($key, $value){
+        $this->$key = $value;
+    }
+
+    public function __get($key){
+        if (property_exists($this, $key)) {
+            return $this->$key;
+        } else {
+            die('Không tồn tại thuộc tính');
+        }
     }
 }
 ?>
