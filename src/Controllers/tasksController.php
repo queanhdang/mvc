@@ -11,7 +11,6 @@ class tasksController extends Controller
     {
         $task = new Task();
         $taskResourceModel = new TaskResourceModel("tasks", "id", $task);
-
         $d['tasks'] = $taskResourceModel->showAll($task);
         $this->set($d);
         $this->render("index1");
@@ -48,12 +47,6 @@ class tasksController extends Controller
             $task->title = $_POST['title'];
             $task->description = $_POST['description'];
             $task->updated_at = date('Y-m-d H:i:s');
-            // $model = [
-            //     "id" => $task->id,
-            //     "title" => $_POST['title'],
-            //     "description" => $_POST['description'],
-            //     "updated_at" => date('Y-m-d H:i:s')
-            // ];
             if ($taskResourceModel->edit($task))
             {
                 header("Location: " . WEBROOT . "tasks/index1");
@@ -66,10 +59,8 @@ class tasksController extends Controller
     function delete($id)
     {
         $task = new Task();
-        // $model =[
-        //     "id" => $id
-        // ];
         $task->id = $id;
+        echo $id;
         $taskResourceModel = new TaskResourceModel("tasks", "id", $task);
         if ($taskResourceModel->delete($task))
         {
